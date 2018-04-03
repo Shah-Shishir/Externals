@@ -6,7 +6,7 @@ using namespace std;
 #define pb push_back
 
 const int MAX = 100000001;
-int prime[(MAX/32)+2];
+int prime[(MAX>>5)+2];
 vector <int> v;
 
 int SetBit (int n, int x) {return n | (1 << x);}
