@@ -1,63 +1,60 @@
 /***
 
 Sample Input
+
 5
-11 -6 23 5 80
+3 2 1 4 5
 
 ***/
+
 
 #include <bits/stdc++.h>
 using namespace std;
 
-int BIT[100001],arr[100001],n,i,k,val;
+#define sf scanf
+#define pf printf
 
-void initializeBIT (int arr[], int n)
+int BIT[100001],n,i;
+
+void update (int i, int val)
 {
-    memset (BIT,0,n);
-
-    for (i=1; i<=n; i++)
-    {
-        val = arr[i-1];
-
-        for (k=i; k<=n; k+=k&(-k))
-            BIT[k] += val;
-    }
+    for (; i<=n; i+=i&(-i))
+        BIT[i] += val;
 }
 
-int query (int r)
+int query (int i)
 {
     int sum = 0;
-    ++r;
 
-    for (; r>=1; r-=r&(-r))
-        sum += BIT[r];
+    for (; i>0; i-=i&(-i))
+        sum += BIT[i];
 
     return sum;
 }
 
-void update (int idx, int val)
+int main (void)
 {
-    ++idx;
+    /*
+    freopen ("input.txt","r",stdin);
+    freopen ("output.txt","w",stdout);
+    */
 
-    for (; idx<=n; idx+=idx&(-idx))
-        BIT[idx] += val;
-}
+    int val;
 
-int main ()
-{
-    cin >> n;
+    sf ("%d",&n);
 
-    for (i=0; i<n; i++)
-        cin >> arr[i];
+    memset (BIT,0,sizeof BIT);
 
-    initializeBIT (arr,n);
+    for (i=1; i<=n; i++)
+    {
+        sf ("%d",&val);
+        update (i,val);
+    }
 
-    for (i=0; i<n; i++)
-        cout << "Sum upto index no. " << i << " : " << query(i) << endl;
+    pf ("\ni    query(i)     BIT[i]\n");
 
-    update (3,5);
-
-    cout << "Sum upto index no. 3 : " << query(3) << endl;
+    for (i=1; i<=n; i++)
+        pf ("%d     %2d            %2d\n",i,query(i),BIT[i]);
 
     return 0;
 }
